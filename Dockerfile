@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore dependencies
-COPY ["src/TwoFA/TwoFA.csproj", "./"]
+COPY ["TwoFA.csproj", "./"]
 RUN dotnet restore "./TwoFA.csproj"
 
 # Copy the rest of the code and publish
