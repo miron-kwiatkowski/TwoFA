@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TwoFA.Data;
-using Google.Apis.Auth.AspNetCore3;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
