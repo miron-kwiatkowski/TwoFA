@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Dodaj DbContext z SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Dodaj Identity z wymogiem potwierdzenia konta email i tokenami (m.in. 2FA)
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
