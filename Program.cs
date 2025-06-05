@@ -1,10 +1,10 @@
-using Google.Apis.Auth.AspNetCore3;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TwoFA.Data;
+using Google.Apis.Auth.AspNetCore3;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 
 
@@ -26,23 +26,13 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddDefaultTokenProviders();
 
 // Dodaj uwierzytelnianie Google
-builder.Services.AddAuthentication(o =>
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
     {
-        // This forces challenge results to be handled by Google OpenID Handler, so there's no
-        // need to add an AccountController that emits challenges for Login.
-        o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-        // This forces forbid results to be handled by Google OpenID Handler, which checks if
-        // extra scopes are required and does automatic incremental auth.
-        o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-        // Default scheme that will handle everything else.
-        // Once a user is authenticated, the OAuth2 token info is stored in cookies.
-        o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    })
-        .AddCookie()
-    .AddGoogle(googleOptions =>
-    {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+        IConfigurationSection googleAuthNSection =
+        config.GetSection("Authentication:Google");
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     });
 
 // Dodaj kontrolery i widoki MVC oraz Razor Pages (dla Identity UI)
