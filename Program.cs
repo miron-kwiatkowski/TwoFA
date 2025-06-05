@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TwoFA;
 using TwoFA.Data;
 
 
@@ -34,6 +36,14 @@ builder.Services.AddAuthentication()
         options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireTwoFactorOrGoogle", policy =>
+        policy.Requirements.Add(new TwoFactorOrGoogleRequirement()));
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, TwoFactorOrGoogleHandler>();
 
 // Dodaj kontrolery i widoki MVC oraz Razor Pages (dla Identity UI)
 builder.Services.AddControllersWithViews();
