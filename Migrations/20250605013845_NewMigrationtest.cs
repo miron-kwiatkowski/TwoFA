@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace TwoFA.Data.Migrations
+namespace TwoFA.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class NewMigrationtest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

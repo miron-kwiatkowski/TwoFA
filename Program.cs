@@ -27,8 +27,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddAuthentication()
     .AddGoogle(googleOptions =>
     {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     });
 
 // Dodaj kontrolery i widoki MVC oraz Razor Pages (dla Identity UI)
