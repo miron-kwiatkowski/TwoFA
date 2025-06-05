@@ -1,9 +1,11 @@
-﻿namespace TwoFA
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace TwoFA
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
+    
 
     public class TwoFactorOrGoogleRequirement : IAuthorizationRequirement { }
 
