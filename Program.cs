@@ -4,6 +4,8 @@ using TwoFA.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Dodaj DbContext z SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -41,6 +43,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -60,5 +63,11 @@ app.MapRazorPages();
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
 app.Urls.Add($"http://*:{port}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
